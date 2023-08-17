@@ -15,3 +15,7 @@ So, instead of simply using `console.log` or any logger library, just define you
 Then you can start cheap and just continue to use `console.log` under the hood or directly serach for a more suffisticated logging library fits your needs.
 
 > Your logger interface can also be really simple at first and grow with time as your needs increase.
+
+## open TODO's in this repo
+
+1. fix vitest browser config
