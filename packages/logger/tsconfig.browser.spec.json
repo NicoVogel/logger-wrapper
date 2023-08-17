@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc",
+    "types": [
+      "vitest/importMeta",
+      "vite/client"
+    ]
+  },
+  "include": [
+    "vitest.browser.ts",
+    "src/browser/**/*.test.ts",
+    "src/browser/**/*.spec.ts",
+  ]
+}

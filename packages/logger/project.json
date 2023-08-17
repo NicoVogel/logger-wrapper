@@ -17,10 +17,21 @@
     },
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": ["coverage/packages/logger"],
+      "outputs": ["{workspaceRoot}/coverage/packages/logger/browser"],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/packages/logger"
+        "reportsDirectory": "../../coverage/packages/logger/browser",
+        "config": "packages/logger/vitest.browser.ts"
+      },
+      "dependsOn": ["test-node"]
+    },
+    "test-node": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{workspaceRoot}/coverage/packages/logger/node"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../coverage/packages/logger/node",
+        "config": "packages/logger/vitest.node.ts"
       }
     },
     "lint": {

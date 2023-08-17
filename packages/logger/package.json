@@ -1,8 +1,17 @@
 {
   "name": "@myorg/logger",
   "version": "0.0.1",
-  "dependencies": {},
+  "dependencies": {
+    "pino": "^8.15.0",
+    "pino-pretty": "^10.2.0"
+  },
   "main": "./index.js",
   "module": "./index.mjs",
-  "typings": "./index.d.ts"
+  "typings": "./index.d.ts",
+  "devDependencies": {
+    "@vitest/browser": "^0.34.1",
+    "playwright": "^1.37.0",
+    "tslib": "^2.6.1",
+    "webdriverio": "^8.15.4"
+  }
 }

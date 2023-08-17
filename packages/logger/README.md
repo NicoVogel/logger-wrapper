@@ -1,11 +1,21 @@
 # logger
 
-This library was generated with [Nx](https://nx.dev).
+This library contains a common logger abstraction for both browser and node.
+The abstraction uses the package `pino` to handle the logging.
+The common interface describes the contract that should be uphold and the abstracted logger package can be changed at any point in time.
 
-## Building
+## Features added to `pino`
 
-Run `nx build logger` to build the library.
+### identifying loggers
 
-## Running unit tests
+Loggers are identified by their name and only one instance per name exists.
+The context (called chidings in `pino`) for a logger would allow a lot more then just a name, but to keep it simple and exchangeable it was reduced to just a name.
 
-Run `nx test logger` to execute the unit tests via [Jest](https://jestjs.io).
+### styling for browser console log messages
+
+Log output for browser consoles are enriched with some css to make it look nicer
+
+### buffer for transports
+
+The browser buffers all logs until the first transport is attached.
+This allows to define the transport in an async way and not miss any log output.
