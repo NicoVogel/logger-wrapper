@@ -1,0 +1,13 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "es2015",
+    "lib": ["es2020", "dom"],
+    "module": "commonjs",
+    "types": [
+      "vitest"
+    ]
+  },
+  "exclude": ["node_modules", "tmp"]
+}
+

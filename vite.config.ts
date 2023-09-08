@@ -1,9 +1,17 @@
 /// <reference types="vitest" />
-import { mergeConfig , defineConfig} from 'vite';
-import baseConfig from './vite.config'
+import { defineConfig } from 'vite';
 
+export default defineConfig({
+  cacheDir: 'node_modules/.vite/logger',
 
-export default mergeConfig(baseConfig, {
+  build: {
+    lib: {
+      entry: ['src/browser.ts'],
+      name: 'logger',
+      formats: ['es', 'cjs'],
+    },
+  },
+
   test: {
     cache: {
       dir: 'node_modules/.vitest',
