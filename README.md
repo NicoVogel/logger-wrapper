@@ -26,6 +26,10 @@ Would I do the same in production?
 
 Probably not.
 
+## Related blog
+
+This repo was used as example for this blog post: [Wrapping Libraries for Enhanced Flexibility: A Practical Approach](https://dev.to/this-is-angular/creating-a-logger-wrapper-3j0c)
+
 ## Open todo's
 
 In this repo is an example vitest setup to run tests in both browser and node environment.
