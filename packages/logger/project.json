@@ -22,8 +22,7 @@
         "passWithNoTests": true,
         "reportsDirectory": "{workspaceRoot}/coverage/packages/logger/browser",
         "config": "{workspaceRoot}/packages/logger/vitest.browser.ts"
-      },
-      "dependsOn": ["test-node"]
+      }
     },
     "test-node": {
       "executor": "@nx/vite:test",
