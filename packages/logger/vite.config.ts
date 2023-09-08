@@ -6,7 +6,7 @@ import dts from 'vite-plugin-dts';
 import * as path from 'path';
 
 export default defineConfig({
-  cacheDir: '../../node_modules/.vite/logger',
+  cacheDir: 'node_modules/.vite/logger',
 
   plugins: [
     dts({
