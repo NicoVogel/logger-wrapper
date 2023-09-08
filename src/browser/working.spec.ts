@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { BrowserLogger } from './working';
+import { ConsoleLogger } from './working';
 
 const mockConsole = {
   error: vi.fn(),
@@ -22,14 +22,14 @@ describe('browser logger', () => {
 
   it('should create logger', () => {
     expect(() => {
-      const logger = new BrowserLogger();
+      const logger = new ConsoleLogger();
 
       expect(logger).toBeDefined();
     }).not.toThrow();
   });
 
   it('should log to console', () => {
-    const logger = new BrowserLogger();
+    const logger = new ConsoleLogger();
     logger.error('test log');
 
     expect(console.error).toHaveBeenCalled();
@@ -37,14 +37,14 @@ describe('browser logger', () => {
 
   describe('logging', () => {
     it('should log message', () => {
-      const logger = new BrowserLogger();
+      const logger = new ConsoleLogger();
       logger.info('test log');
 
       expect(getLogContent('log')).toEqual(['test log']);
     });
 
     it('should log both message and data', () => {
-      const logger = new BrowserLogger();
+      const logger = new ConsoleLogger();
       logger.info('test log', { some: 'data' });
 
       expect(getLogContent('log')).toEqual([
@@ -54,7 +54,7 @@ describe('browser logger', () => {
     });
 
     it('should log both message and multiple data', () => {
-      const logger = new BrowserLogger();
+      const logger = new ConsoleLogger();
       logger.info('test log', { some: 'data' }, 'some other data');
 
       expect(getLogContent('log')).toEqual([

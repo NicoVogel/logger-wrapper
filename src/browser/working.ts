@@ -1,6 +1,6 @@
 
 
-export class BrowserLogger {
+export class ConsoleLogger {
   error(message: string, ...args: unknown[]) {
     this.log('error', message, args);
   }

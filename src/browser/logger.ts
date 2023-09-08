@@ -54,7 +54,7 @@ const logConfig = {
   },
 } as const;
 
-export class BrowserLogger {
+export class PinoLogger {
   private logger;
   constructor() {
     this.logger = pino({
