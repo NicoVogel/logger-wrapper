@@ -1,13 +1,6 @@
-import pino from 'pino';
-import {
-  RootLogger,
-  Log,
-  LogLevel,
-  TransportLogger,
-  staticLoggerConfig,
-} from '../common/interface';
-
-import { BaseLogger } from '../common/base-logger';
+// both import styles do not work
+import pino from "pino";
+// import {pino} from "pino";
 
 type PinoLogWriteObject = {
   level: number;
@@ -19,19 +12,13 @@ type PinoLogWriteObject = {
 
 function formatTime(ts: number) {
   const date = new Date(ts);
-  return `${date.toLocaleTimeString().split(' ')[0]}.${date.getMilliseconds()}`;
+  return `${date.toLocaleTimeString().split(" ")[0]}.${date.getMilliseconds()}`;
 }
 
-type LogConfig = {
-  prefix: string;
-  bannerStyle: string;
-  consoleFunc: keyof Console;
-};
-
 const commonLogConfig = {
-  timeStyle: 'color: white',
-  moduleStyle: 'font-weight: bold; color: yellow',
-  message: ' %c[%s] %c%s',
+  timeStyle: "color: white",
+  moduleStyle: "font-weight: bold; color: yellow",
+  message: " %c[%s] %c%s",
 } as const;
 
 /**
@@ -40,103 +27,67 @@ const commonLogConfig = {
  */
 const logConfig = {
   error: {
-    prefix: '%cERROR',
-    bannerStyle: 'color: red',
-    consoleFunc: 'error',
+    prefix: "%cERROR",
+    bannerStyle: "color: red",
+    consoleFunc: "error",
   },
   warn: {
-    prefix: '%cWARN',
-    bannerStyle: 'color: yellow',
-    consoleFunc: 'warn',
+    prefix: "%cWARN",
+    bannerStyle: "color: yellow",
+    consoleFunc: "warn",
   },
   info: {
-    prefix: '%cINFO',
-    bannerStyle: 'color: white',
-    consoleFunc: 'log',
+    prefix: "%cINFO",
+    bannerStyle: "color: white",
+    consoleFunc: "log",
   },
   debug: {
-    prefix: '%cDEBUG',
+    prefix: "%cDEBUG",
     // color aero
-    bannerStyle: 'color: #7CB9E8',
-    consoleFunc: 'log',
+    bannerStyle: "color: #7CB9E8",
+    consoleFunc: "log",
   },
   trace: {
-    prefix: '%cTRACE',
-    bannerStyle: 'color: gray',
-    consoleFunc: 'log',
+    prefix: "%cTRACE",
+    bannerStyle: "color: gray",
+    consoleFunc: "log",
   },
-} satisfies Record<LogLevel, LogConfig>;
+} as const;
 
-export class BrowserLogger extends BaseLogger implements RootLogger {
-  private readonly buffer = {
-    active: true,
-    logs: [] as Log[],
-  };
-
-  private readonly transports = new Set<TransportLogger>();
-
-  constructor(level: LogLevel = 'info', disableConsoleOutput = false) {
-    super(
-      pino({
-        level: level,
-        browser: {
-          asObject: true,
-          write(o) {
-            const { time, level, module, ...log } = o as PinoLogWriteObject;
-            const levelLabel = pino.levels.labels[level] as LogLevel;
-            const config = logConfig[levelLabel];
-            const logContent = log[0]?.length ? [log.msg, log[0]] : [log.msg];
-            console[config.consoleFunc](
-              config.prefix + commonLogConfig.message,
-              config.bannerStyle,
-              commonLogConfig.timeStyle,
-              formatTime(time),
-              commonLogConfig.moduleStyle,
-              module ?? staticLoggerConfig.rootLoggerName,
-              ...logContent
-            );
-          },
-          transmit: {
-            send: (_, logEvent) => {
-              const names = logEvent.bindings.map((b): string => b['module']);
-              const current = names.pop();
-              if (current) {
-                names.unshift(staticLoggerConfig.rootLoggerName);
-              }
-              const [[args], message] = logEvent.messages;
-
-              const log: Log = {
-                msg: message,
-                data: args,
-                meta: {
-                  date: new Date(logEvent.ts),
-                  logLevel: logEvent.level.label as LogLevel,
-                  name: current ?? staticLoggerConfig.rootLoggerName,
-                  parentNames: names,
-                },
-              };
-              if (this.buffer.active) {
-                this.buffer.logs.push(log);
-              } else {
-                this.transports.forEach(logger => logger(log));
-              }
-            },
-          },
-          disabled: disableConsoleOutput,
+export class BrowserLogger {
+  private logger;
+  constructor() {
+    this.logger = pino({
+      level: "trace",
+      browser: {
+        asObject: true,
+        write(o) {
+          const { time, level, module, ...log } = o as PinoLogWriteObject;
+          const levelLabel = pino.levels.labels[level];
+          const config = logConfig[levelLabel];
+          const logContent = log[0]?.length ? [log.msg, log[0]] : [log.msg];
+          console[config.consoleFunc](
+            config.prefix + commonLogConfig.message,
+            config.bannerStyle,
+            commonLogConfig.timeStyle,
+            formatTime(time),
+            commonLogConfig.moduleStyle,
+            module ?? "root",
+            ...logContent
+          );
         },
-      }),
-      new Map()
-    );
-
-    this.loggerMap.set(staticLoggerConfig.rootLoggerName, this);
+      },
+    });
+  }
+  error(message: string, ...args: unknown[]) {
+    this.log("error", message, args);
   }
 
-  attachTransport(transportLogger: TransportLogger): void {
-    if (this.buffer.active) {
-      this.buffer.active = false;
-      this.buffer.logs.forEach(log => transportLogger(log));
-      this.buffer.logs = [];
-    }
-    this.transports.add(transportLogger);
+  info(message: string, ...args: unknown[]) {
+    this.log("log", message, args);
+  }
+
+  log(level: "error" | "log", message: string, args?: unknown[]) {
+    this.logger[level](message, args);
   }
 }

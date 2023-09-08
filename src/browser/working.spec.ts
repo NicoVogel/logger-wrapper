@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { BrowserLogger } from './logger';
+import { BrowserLogger } from './working';
 
 const mockConsole = {
   error: vi.fn(),
@@ -8,9 +8,7 @@ const mockConsole = {
 vi.stubGlobal('console', mockConsole)
 
 
-function getLogContent(
-  func: 'error' | 'log'
-) {
+function getLogContent(func: 'error' | 'log') {
   const data: unknown[] = mockConsole[func].mock.lastCall
   const numberOfArgumentsBeforeActualData = 6;
 

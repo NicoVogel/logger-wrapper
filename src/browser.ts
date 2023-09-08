@@ -1,5 +1,5 @@
 import type { LogLevel, RootLogger } from "./common/interface";
-import { BrowserLogger } from "./browser/logger";
+import { BrowserLogger } from "./browser/working";
 
 export type { IBaseLogger, RootLogger, LogLevel, TransportLogger, Log } from "./common/interface";
 
