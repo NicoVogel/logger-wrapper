@@ -1,10 +1,11 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite';
+import { mergeConfig , defineConfig} from 'vite';
+import baseConfig from './vite.config'
 
-export default defineConfig({
+export default mergeConfig(baseConfig,{
   test: {
     cache: {
-      dir: '../../node_modules/.vitest',
+      dir: 'node_modules/.vitest',
     },
     environment: 'node',
     include: ['src/node/*.spec.ts'],

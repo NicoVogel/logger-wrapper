@@ -20,8 +20,8 @@
       "outputs": ["{workspaceRoot}/coverage/packages/logger/browser"],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/packages/logger/browser",
-        "config": "packages/logger/vitest.browser.ts"
+        "reportsDirectory": "{workspaceRoot}/coverage/packages/logger/browser",
+        "config": "{workspaceRoot}/packages/logger/vitest.browser.ts"
       },
       "dependsOn": ["test-node"]
     },
@@ -30,8 +30,8 @@
       "outputs": ["{workspaceRoot}/coverage/packages/logger/node"],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/packages/logger/node",
-        "config": "packages/logger/vitest.node.ts"
+        "reportsDirectory": "{workspaceRoot}coverage/packages/logger/node",
+        "config": "{workspaceRoot}/packages/logger/vitest.node.ts"
       }
     },
     "lint": {
